@@ -23,7 +23,7 @@ title: Submit Article
       <div class="step-number">2</div>
       <div class="step-content">
         <h3>Open a New Issue</h3>
-        <p>Go to the <a href="https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/issues/new?template=article-submission.yml" target="_blank" id="submit-link">article submission page</a> and click "Get started".</p>
+        <p>Go to the <a href="https://github.com/ashley0-926/fuck-journal/issues/new?template=article-submission.yml" target="_blank" id="submit-link">article submission page</a> and click "Get started".</p>
       </div>
     </div>
 
@@ -76,7 +76,7 @@ title: Submit Article
   </div>
 
   <div class="submit-cta">
-    <a href="https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/issues/new?template=article-submission.yml" target="_blank" class="btn btn-large" id="submit-cta-btn">
+    <a href="https://github.com/ashley0-926/fuck-journal/issues/new?template=article-submission.yml" target="_blank" class="btn btn-large" id="submit-cta-btn">
       Submit Your Article Now →
     </a>
     <p class="submit-note">(You will be redirected to GitHub. Don't panic.)</p>
