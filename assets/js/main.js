@@ -9,22 +9,25 @@
   const CATEGORY_LABELS = {
     'Technical Bullshit': 'Technical Bullshit',
     'Mysticism in Motorsport': 'Mysticism in Motorsport',
-    'Driver Physiognomy Studies': 'Driver Physiognomy Studies',
-    'Ferrari Strategy Catastrophe Archive': 'Ferrari Strategy Catastrophe Archive'
+    'Driver Psychology & Style Analysis': 'Driver Psychology & Style Analysis',
+    'Ferrari Strategy Catastrophe Archive': 'Ferrari Strategy Catastrophe Archive',
+    'Paddock Psychology Analysis': 'Paddock Psychology Analysis'
   };
 
   const CATEGORY_COLORS = {
     'Technical Bullshit': '#2563eb',
     'Mysticism in Motorsport': '#7c3aed',
-    'Driver Physiognomy Studies': '#059669',
-    'Ferrari Strategy Catastrophe Archive': '#dc2626'
+    'Driver Psychology & Style Analysis': '#059669',
+    'Ferrari Strategy Catastrophe Archive': '#dc2626',
+    'Paddock Psychology Analysis': '#d97706'
   };
 
   const CATEGORY_SLUGS = {
     'technical-bullshit': 'Technical Bullshit',
     'mysticism-in-motorsport': 'Mysticism in Motorsport',
-    'driver-physiognomy-studies': 'Driver Physiognomy Studies',
-    'ferrari-strategy-catastrophe-archive': 'Ferrari Strategy Catastrophe Archive'
+    'driver-psychology-analysis': 'Driver Psychology & Style Analysis',
+    'ferrari-strategy-catastrophe-archive': 'Ferrari Strategy Catastrophe Archive',
+    'paddock-psychology-analysis': 'Paddock Psychology Analysis'
   };
 
   const GITHUB_API = `https://api.github.com/repos/${REPO.owner}/${REPO.name}/issues`;
