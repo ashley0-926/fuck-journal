@@ -29,7 +29,8 @@ body:
       options:
         - Technical Bullshit
         - Mysticism in Motorsport
-        - Driver Physiognomy Studies
+        - Driver Psychology & Style Analysis
+        - Paddock Psychology Analysis
         - Ferrari Strategy Catastrophe Archive
     validations:
       required: true
