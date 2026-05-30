@@ -26,6 +26,7 @@
   --section-physio: #059669;
   --section-ferrari: #dc2626;
   --section-psych: #d97706;
+  --section-fanfic: #ec4899;
 
   --max-width: 1200px;
   --content-width: 780px;
@@ -367,6 +368,7 @@ em { font-style: italic; }
 .card-mystic:hover { border-left: 3px solid var(--section-mystic); }
 .card-physio:hover { border-left: 3px solid var(--section-physio); }
 .card-psych:hover { border-left: 3px solid var(--section-psych); }
+.card-fanfic:hover { border-left: 3px solid var(--section-fanfic); }
 .card-ferrari:hover { border-left: 3px solid var(--section-ferrari); }
 
 /* === Category Pages === */
