@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include head.html %}
+  <body>
+    <div class="journal-wrapper">
+      {% include header.html %}
+      <main class="main-content">
+        <div class="container">
+          {{ content }}
+        </div>
+      </main>
+      {% include footer.html %}
+    </div>
+    <script>
+      window.REPO_CONFIG = {
+        owner: '{{ site.github_username }}',
+        name: '{{ site.repo_name }}'
+      };
+    </script>
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  </body>
+</html>
