@@ -8,7 +8,7 @@ title: About 关于
 
   <div class="about-section">
     <h2>Aims & Scope 宗旨与范围</h2>
-    <p><strong>F.U.C.K. (Journal of Formulal Unnecessary Commentary & Knowledge / 不必要评论与知识学报)</strong> is a wholly unnecessary, entirely unqualified, and delightfully unhinged academic-style journal dedicated to the systematic study of Formula 1 nonsense.<br>本刊是一本完全没必要、完全不专业且令人愉悦地失控的学术风格期刊，致力于F1扯淡的系统性研究。</p>
+    <p><strong>F.U.C.K. (Journal of Formula 1 Unnecessary Commentary & Knowledge / 不必要评论与知识学报)</strong> is a wholly unnecessary, entirely unqualified, and delightfully unhinged academic-style journal dedicated to the systematic study of Formula 1 nonsense.<br>本刊是一本完全没必要、完全不专业且令人愉悦地失控的学术风格期刊，致力于F1扯淡的系统性研究。</p>
     <p>We accept papers on any topic that can be retrofitted into an academic framework:<br>我们接受任何可以被强行塞入学术框架的话题：</p>
     <ul>
       <li>The metaphysical implications of DRS detection zones / DRS检测区的形而上学含义</li>
