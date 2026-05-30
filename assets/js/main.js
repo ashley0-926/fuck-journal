@@ -11,7 +11,8 @@
     'Mysticism in Motorsport': 'Mysticism in Motorsport',
     'Driver Psychology & Style Analysis': 'Driver Psychology & Style Analysis',
     'Ferrari Strategy Catastrophe Archive': 'Ferrari Strategy Catastrophe Archive',
-    'Paddock Psychology Analysis': 'Paddock Psychology Analysis'
+    'Paddock Psychology Analysis': 'Paddock Psychology Analysis',
+    'Paddock Fanfiction Studies': 'Paddock Fanfiction Studies'
   };
 
   const CATEGORY_COLORS = {
@@ -19,7 +20,8 @@
     'Mysticism in Motorsport': '#7c3aed',
     'Driver Psychology & Style Analysis': '#059669',
     'Ferrari Strategy Catastrophe Archive': '#dc2626',
-    'Paddock Psychology Analysis': '#d97706'
+    'Paddock Psychology Analysis': '#d97706',
+    'Paddock Fanfiction Studies': '#ec4899'
   };
 
   const CATEGORY_SLUGS = {
@@ -27,7 +29,8 @@
     'mysticism-in-motorsport': 'Mysticism in Motorsport',
     'driver-psychology-analysis': 'Driver Psychology & Style Analysis',
     'ferrari-strategy-catastrophe-archive': 'Ferrari Strategy Catastrophe Archive',
-    'paddock-psychology-analysis': 'Paddock Psychology Analysis'
+    'paddock-psychology-analysis': 'Paddock Psychology Analysis',
+    'paddock-fanfiction-studies': 'Paddock Fanfiction Studies'
   };
 
   const GITHUB_API = `https://api.github.com/repos/${REPO.owner}/${REPO.name}/issues`;
