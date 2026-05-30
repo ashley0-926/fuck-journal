@@ -33,7 +33,7 @@
     'paddock-fanfiction-studies': 'Paddock Fanfiction Studies'
   };
 
-  const GITHUB_API = `https://api.github.com/repos/${REPO.owner}/${REPO.name}/issues`;
+  const API_PROXY = '/api/issues';
   const GITHUB_ISSUES = `https://github.com/${REPO.owner}/${REPO.name}/issues`;
 
   // === Utility ===
@@ -121,18 +121,17 @@
 
   // === Fetch Issues ===
   async function fetchIssues(category, page = 1, perPage = 50) {
-    let url = `${GITHUB_API}?state=open&per_page=${perPage}&page=${page}&sort=created&direction=desc`;
+    let url = `${API_PROXY}?state=open&per_page=${perPage}&page=${page}`;
 
     if (category && CATEGORY_LABELS[category]) {
       url += `&labels=${encodeURIComponent(category)}`;
     }
 
-    const headers = { 'Accept': 'application/vnd.github.v3+json' };
-
     try {
-      const resp = await fetch(url, { headers });
-      if (!resp.ok) throw new Error(`GitHub API error: ${resp.status}`);
-      return await resp.json();
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`API error: ${resp.status}`);
+      const json = await resp.json();
+      return json.data || [];
     } catch (err) {
       console.error('Failed to fetch issues:', err);
       return [];
@@ -140,13 +139,13 @@
   }
 
   async function fetchIssue(number) {
-    const url = `${GITHUB_API}/${number}`;
-    const headers = { 'Accept': 'application/vnd.github.v3+json' };
+    const url = `${API_PROXY}?number=${number}`;
 
     try {
-      const resp = await fetch(url, { headers });
-      if (!resp.ok) throw new Error(`GitHub API error: ${resp.status}`);
-      return await resp.json();
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`API error: ${resp.status}`);
+      const json = await resp.json();
+      return json.data || null;
     } catch (err) {
       console.error('Failed to fetch issue:', err);
       return null;
