@@ -1,0 +1,24 @@
+<header class="journal-header">
+  <div class="container">
+    <div class="header-top">
+      <div class="issn">ISSN {{ site.issn }}</div>
+      <div class="header-vol">Vol. <span id="volume">I</span>, No. <span id="issue">1</span></div>
+    </div>
+    <div class="header-main">
+      <a href="{{ '/' | relative_url }}" class="journal-title-link">
+        <h1 class="journal-title">{{ site.title }}</h1>
+        <p class="journal-subtitle">{{ site.subtitle }}</p>
+      </a>
+      <p class="journal-tagline">{{ site.tagline }}</p>
+    </div>
+    <nav class="journal-nav">
+      <a href="{{ '/' | relative_url }}" class="nav-link">Home</a>
+      <a href="{{ '/categories/technical-bullshit' | relative_url }}" class="nav-link">Tech Bullshit</a>
+      <a href="{{ '/categories/mysticism-in-motorsport' | relative_url }}" class="nav-link">Mysticism</a>
+      <a href="{{ '/categories/driver-physiognomy-studies' | relative_url }}" class="nav-link">Physiognomy</a>
+      <a href="{{ '/categories/ferrari-strategy-catastrophe-archive' | relative_url }}" class="nav-link">Ferrari Strategy</a>
+      <a href="{{ '/submit' | relative_url }}" class="nav-link nav-cta">Submit Article</a>
+      <a href="{{ '/about' | relative_url }}" class="nav-link">About</a>
+    </nav>
+  </div>
+</header>
