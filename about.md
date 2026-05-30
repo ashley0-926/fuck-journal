@@ -15,6 +15,7 @@ title: About 关于
       <li>Comparative hagiography of team principals / 领队比较圣徒传</li>
       <li>Ontological arguments for next-year-wins curse / "明年再战"诅咒的本体论论证</li>
       <li>Driver personality types and their correlation with podium finishes / 车手人格类型与领奖台的相关性</li>
+      <li>Semiotic analysis of popular F1 fanfiction ships / 热门F1同人CP的符号学分析</li>
       <li>Any paper that uses "paradigm" unironically / 任何严肃使用"范式"一词的论文</li>
     </ul>
   </div>
