@@ -30,7 +30,9 @@ title: Submit Article 投稿
           <option value="">— Select a category 选择栏目 —</option>
           <option value="Technical Bullshit">⚙️ Technical Bullshit 技术扯淡</option>
           <option value="Mysticism in Motorsport">🔮 Mysticism in Motorsport 赛车玄学</option>
-          <option value="Driver Physiognomy Studies">🧠 Driver Physiognomy Studies 车手面相学</option>
+          <option value="Driver Psychology & Style Analysis">🧠 Driver Psychology & Style 车手人格与风格</option>
+          <option value="Paddock Psychology Analysis">🎭 Paddock Psychology 围场心理学</option>
+          <option value="Paddock Fanfiction Studies">💕 Paddock Fanfiction 围场同人研究</option>
           <option value="Ferrari Strategy Catastrophe Archive">🏳️ Ferrari Strategy Archive 法拉利策略灾难</option>
         </select>
       </div>
