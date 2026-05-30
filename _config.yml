@@ -1,5 +1,5 @@
 title: "F.U.C.K."
-subtitle: "Journal of Formulal Unnecessary Commentary & Knowledge"
+subtitle: "Journal of Formula 1 Unnecessary Commentary & Knowledge"
 description: "A peer-reviewed (by no one) academic journal dedicated to the rigorous study of Formula 1 nonsense."
 tagline: "Advancing the frontier of motorsport bullshit since 2026"
 
@@ -27,4 +27,3 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor
-  - api
