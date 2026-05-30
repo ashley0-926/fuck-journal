@@ -3,31 +3,27 @@ subtitle: "Journal of Formulal Unnecessary Commentary & Knowledge"
 description: "A peer-reviewed (by no one) academic journal dedicated to the rigorous study of Formula 1 nonsense."
 tagline: "Advancing the frontier of motorsport bullshit since 2026"
 
-# GitHub repository for Issues-as-CMS
-github_username: YOUR_USERNAME
-repo_name: YOUR_REPO_NAME
+github_username: ashley0-926
+repo_name: fuck-journal
 
-# Journal metadata
 issn: "3000-FUCK"
 abbreviation: "F.U.C.K."
 
 baseurl: ""
 url: ""
 
-# Build settings
 markdown: kramdown
 theme: null
 plugins: []
 
-# Default front matter
 defaults:
   - scope:
       path: ""
     values:
       layout: "default"
 
-# Exclude from processing
 exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
+  - vendor
