@@ -736,6 +736,99 @@ em { font-style: italic; }
   font-style: italic;
 }
 
+/* === Submission Form === */
+.article-form {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--cream);
+  color: var(--ink);
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-group textarea {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.form-submit-row {
+  text-align: center;
+  padding-top: 8px;
+}
+
+.form-submit-row .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-status {
+  margin-top: 16px;
+  padding: 16px 20px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.form-success {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+}
+
+.form-error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+}
+
+.form-status a {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
 /* === About Page === */
 .about-page h1 { text-align: center; margin-bottom: 40px; }
 
