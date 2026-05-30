@@ -7,49 +7,61 @@ title: Submit Article 投稿
   <h1>Submit an Article 投稿</h1>
 
   <div class="submit-intro">
-    <p>We eagerly await your groundbreaking research. To submit an article, follow the steps below.<br>我们热切期待您的突破性研究。按照以下步骤投稿。</p>
+    <p>Fill out the form below to submit directly, or use <a href="https://github.com/ashley0-926/fuck-journal/issues/new" target="_blank">GitHub Issues</a>.<br>直接在下方填写提交，或通过 GitHub Issues 提交。</p>
   </div>
 
-  <div class="submit-steps">
-    <div class="step">
-      <div class="step-number">1</div>
-      <div class="step-content">
-        <h3>Create a GitHub Account 注册GitHub账号</h3>
-        <p>If you don't already have one, <a href="https://github.com/join" target="_blank">sign up for GitHub</a>. It's free and takes approximately the same time as a single pit stop.<br>如果没有，注册一个GitHub账号。免费，大概跟一次进站差不多时间。</p>
+  <div id="submit-form-container">
+    <form id="article-form" class="article-form">
+      <div class="form-group">
+        <label for="form-title">Title 标题 *</label>
+        <input type="text" id="form-title" name="title" required
+          placeholder="e.g. The DRS Train: A Longitudinal Study of Followability">
       </div>
-    </div>
 
-    <div class="step">
-      <div class="step-number">2</div>
-      <div class="step-content">
-        <h3>Open a New Issue 创建新Issue</h3>
-        <p>Go to the <a href="https://github.com/ashley0-926/fuck-journal/issues/new/choose" target="_blank" id="submit-link">article submission page / 投稿页面</a> and select "Article Submission".<br>打开投稿页面，选择 Article Submission 模板。</p>
+      <div class="form-group">
+        <label for="form-authors">Authors 作者 *</label>
+        <input type="text" id="form-authors" name="authors" required
+          placeholder="e.g. Juan Sheig, Max Power">
       </div>
-    </div>
 
-    <div class="step">
-      <div class="step-number">3</div>
-      <div class="step-content">
-        <h3>Fill in the Details 填写内容</h3>
-        <p>The template will guide you. You'll need:<br>模板会引导你填写。需要以下内容：</p>
-        <ul>
-          <li><strong>Title / 标题</strong> — Make it sound academic. Use colons. Example: <em>"The DRS Train: A Longitudinal Study of Followability in the 2023 Season"</em></li>
-          <li><strong>Authors / 作者</strong> — List your co-authors (or just yourself)</li>
-          <li><strong>Category / 栏目</strong> — Pick one of our four sections / 选择四个栏目之一</li>
-          <li><strong>Abstract / 摘要</strong> — Sound like you know what you're talking about / 说得好像你懂一样</li>
-          <li><strong>Body / 正文</strong> — The actual content. Use as much jargon as possible / 实际内容。尽量多用术语。</li>
-          <li><strong>References / 参考文献</strong> — Cite at least three things, ideally including one you made up / 至少引用三条，最好有一条是你编的</li>
-        </ul>
+      <div class="form-group">
+        <label for="form-category">Category 栏目 *</label>
+        <select id="form-category" name="category" required>
+          <option value="">— Select a category 选择栏目 —</option>
+          <option value="Technical Bullshit">⚙️ Technical Bullshit 技术扯淡</option>
+          <option value="Mysticism in Motorsport">🔮 Mysticism in Motorsport 赛车玄学</option>
+          <option value="Driver Physiognomy Studies">🧠 Driver Physiognomy Studies 车手面相学</option>
+          <option value="Ferrari Strategy Catastrophe Archive">🏳️ Ferrari Strategy Archive 法拉利策略灾难</option>
+        </select>
       </div>
-    </div>
 
-    <div class="step">
-      <div class="step-number">4</div>
-      <div class="step-content">
-        <h3>Submit 提交</h3>
-        <p>Click "Submit new issue". Your article will appear on the site after a brief review period (approximately 5-15 minutes).<br>点击提交。你的文章将在短暂的审核期后（大约5-15分钟）出现在网站上。</p>
+      <div class="form-group">
+        <label for="form-abstract">Abstract 摘要 *</label>
+        <textarea id="form-abstract" name="abstract" rows="4" required
+          placeholder="A brief summary of your groundbreaking research. Make it sound academic."></textarea>
       </div>
-    </div>
+
+      <div class="form-group">
+        <label for="form-body">Body 正文 *</label>
+        <textarea id="form-body" name="body" rows="12" required
+          placeholder="## Introduction&#10;&#10;## Methodology&#10;&#10;## Results&#10;&#10;## Discussion&#10;&#10;## Conclusion"></textarea>
+        <p class="form-hint">Supports Markdown 支持 Markdown 格式</p>
+      </div>
+
+      <div class="form-group">
+        <label for="form-references">References 参考文献</label>
+        <textarea id="form-references" name="references" rows="4"
+          placeholder="1. F.U.C.K. J. (2026). The foundational text.&#10;2. Some guy on Reddit (2025). ..."></textarea>
+      </div>
+
+      <div class="form-submit-row">
+        <button type="submit" class="btn btn-large" id="form-submit-btn">
+          Submit Article 提交论文 →
+        </button>
+      </div>
+
+      <div id="form-status" class="form-status" style="display:none;"></div>
+    </form>
   </div>
 
   <div class="submit-guidelines">
@@ -74,11 +86,56 @@ title: Submit Article 投稿
       </div>
     </div>
   </div>
-
-  <div class="submit-cta">
-    <a href="https://github.com/ashley0-926/fuck-journal/issues/new/choose" target="_blank" class="btn btn-large" id="submit-cta-btn">
-      Submit Your Article Now 立即投稿 →
-    </a>
-    <p class="submit-note">(You will be redirected to GitHub. Don't panic. / 你会被重定向到GitHub，别慌。)</p>
-  </div>
 </div>
+
+<script>
+document.getElementById('article-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('form-submit-btn');
+  const status = document.getElementById('form-status');
+  const formData = {
+    title: document.getElementById('form-title').value.trim(),
+    authors: document.getElementById('form-authors').value.trim(),
+    category: document.getElementById('form-category').value,
+    abstract: document.getElementById('form-abstract').value.trim(),
+    body: document.getElementById('form-body').value.trim(),
+    references: document.getElementById('form-references').value.trim()
+  };
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting... 提交中...';
+  status.style.display = 'none';
+
+  try {
+    const resp = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await resp.json();
+
+    if (resp.ok && data.success) {
+      status.className = 'form-status form-success';
+      status.innerHTML = `
+        <strong>✓ Article submitted! 论文提交成功！</strong><br>
+        Your article will appear on the site shortly.<br>
+        文章即将出现在网站上。<br>
+        <a href="${data.url}" target="_blank">View on GitHub 在GitHub查看 →</a>
+      `;
+      document.getElementById('article-form').reset();
+    } else {
+      status.className = 'form-status form-error';
+      status.innerHTML = `<strong>✗ Error 错误:</strong> ${data.error || 'Unknown error'}`;
+    }
+  } catch (err) {
+    status.className = 'form-status form-error';
+    status.innerHTML = `<strong>✗ Network error 网络错误:</strong> ${err.message}`;
+  }
+
+  status.style.display = 'block';
+  btn.disabled = false;
+  btn.textContent = 'Submit Article 提交论文 →';
+});
+</script>
