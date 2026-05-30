@@ -25,6 +25,7 @@
   --section-mystic: #7c3aed;
   --section-physio: #059669;
   --section-ferrari: #dc2626;
+  --section-psych: #d97706;
 
   --max-width: 1200px;
   --content-width: 780px;
@@ -365,6 +366,7 @@ em { font-style: italic; }
 .card-tech:hover { border-left: 3px solid var(--section-tech); }
 .card-mystic:hover { border-left: 3px solid var(--section-mystic); }
 .card-physio:hover { border-left: 3px solid var(--section-physio); }
+.card-psych:hover { border-left: 3px solid var(--section-psych); }
 .card-ferrari:hover { border-left: 3px solid var(--section-ferrari); }
 
 /* === Category Pages === */
