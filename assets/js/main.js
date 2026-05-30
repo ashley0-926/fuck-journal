@@ -314,9 +314,9 @@
       grid.innerHTML = `
         <div class="no-articles">
           <span class="no-articles-icon">📝</span>
-          <h3>No articles yet</h3>
-          <p>Be the first to submit groundbreaking F1 research!</p>
-          <a href="/submit" class="btn">Submit an Article</a>
+          <h3>No articles yet / 还没有文章</h3>
+          <p>Be the first to submit groundbreaking F1 research! / 快来投递第一篇突破性F1研究！</p>
+          <a href="/submit" class="btn">Submit 投稿</a>
         </div>
       `;
       return;
@@ -343,7 +343,7 @@
     const filter = window.categoryFilter;
     if (!filter) {
       if (loading) loading.style.display = 'none';
-      list.innerHTML = '<div class="error-state"><p>No category filter specified.</p></div>';
+      list.innerHTML = '<div class="error-state"><p>No category filter specified / 未指定栏目。</p></div>';
       return;
     }
 
@@ -354,9 +354,9 @@
       list.innerHTML = `
         <div class="no-articles">
           <span class="no-articles-icon">🔍</span>
-          <h3>Nothing here yet</h3>
-          <p>No papers in "${escapeHtml(filter)}" yet. Submit one!</p>
-          <a href="/submit" class="btn">Submit an Article</a>
+          <h3>Nothing here yet / 这里还没有文章</h3>
+          <p>No papers in "${escapeHtml(filter)}" yet. Submit one! / 还没有论文，快来投稿！</p>
+          <a href="/submit" class="btn">Submit 投稿</a>
         </div>
       `;
       return;
@@ -375,7 +375,7 @@
     if (!issueNum) {
       if (loading) loading.style.display = 'none';
       const el = document.querySelector('.journal-article');
-      if (el) el.innerHTML = `<div class="error-state"><p>No article specified. <a href="${window.location.origin}/">Back to journal</a></p></div>`;
+      if (el) el.innerHTML = `<div class="error-state"><p>No article specified / 未指定文章。 <a href="${window.location.origin}/">Back to journal 返回首页</a></p></div>`;
       return;
     }
 
@@ -386,7 +386,7 @@
 
     if (!issue) {
       const el = document.querySelector('.journal-article');
-      if (el) el.innerHTML = `<div class="error-state"><p>Article not found. <a href="${window.location.origin}/">Back to journal</a></p></div>`;
+      if (el) el.innerHTML = `<div class="error-state"><p>Article not found / 未找到文章。 <a href="${window.location.origin}/">Back to journal 返回首页</a></p></div>`;
       return;
     }
 
