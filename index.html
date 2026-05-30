@@ -1,0 +1,70 @@
+---
+layout: default
+title: Home
+---
+
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-callout">A peer-reviewed (by literally no one) academic journal dedicated to advancing the frontier of Formula 1 bullshit.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-number" id="stat-articles">0</span>
+        <span class="stat-label">Articles Published</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="stat-authors">0</span>
+        <span class="stat-label">Distinguished Authors</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="stat-citations">0</span>
+        <span class="stat-label">Total Citations (self)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="latest-issue">
+  <div class="section-header">
+    <h2>Latest Articles</h2>
+    <div class="section-header-line"></div>
+  </div>
+  <div class="articles-loading" id="articles-loading">
+    <div class="loading-spinner"></div>
+    <p>Loading the latest groundbreaking research...</p>
+  </div>
+  <div class="articles-grid" id="articles-grid">
+  </div>
+</section>
+
+<section class="sections-overview">
+  <div class="section-header">
+    <h2>Journal Sections</h2>
+    <div class="section-header-line"></div>
+  </div>
+  <div class="sections-grid">
+    <a href="{{ '/categories/technical-bullshit' | relative_url }}" class="section-card card-tech">
+      <div class="card-icon">⚙️</div>
+      <h3>Technical Bullshit</h3>
+      <p>Deeply researched (not really) analyses of aerodynamic wizardry, power unit mythology, and why the floor matters (nobody knows).</p>
+      <span class="card-arrow">Read papers →</span>
+    </a>
+    <a href="{{ '/categories/mysticism-in-motorsport' | relative_url }}" class="section-card card-mystic">
+      <div class="card-icon">🔮</div>
+      <h3>Mysticism in Motorsport</h3>
+      <p>Exploring the cosmic alignment of gear ratios, the tarot of tyre strategies, and whether Verstappen sold his soul.</p>
+      <span class="card-arrow">Read papers →</span>
+    </a>
+    <a href="{{ '/categories/driver-physiognomy-studies' | relative_url }}" class="section-card card-physio">
+      <div class="card-icon">🧠</div>
+      <h3>Driver Physiognomy Studies</h3>
+      <p>Pseudoscientific analyses of driver jawlines, cap angles, and the correlation between eyebrow density and race pace.</p>
+      <span class="card-arrow">Read papers →</span>
+    </a>
+    <a href="{{ '/categories/ferrari-strategy-catastrophe-archive' | relative_url }}" class="section-card card-ferrari">
+      <div class="card-icon">🏳️</div>
+      <h3>Ferrari Strategy Catastrophe Archive</h3>
+      <p>A comprehensive, peer-reviewed (still by no one) catalog of every Ferrari strategy decision that defies all known logic.</p>
+      <span class="card-arrow">Read papers →</span>
+    </a>
+  </div>
+</section>
