@@ -20,7 +20,9 @@ module.exports = async (req, res) => {
   const validCategories = [
     'Technical Bullshit',
     'Mysticism in Motorsport',
-    'Driver Physiognomy Studies',
+    'Driver Psychology & Style Analysis',
+    'Paddock Psychology Analysis',
+    'Paddock Fanfiction Studies',
     'Ferrari Strategy Catastrophe Archive'
   ];
 
