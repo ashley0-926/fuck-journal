@@ -1,0 +1,96 @@
+name: Article Submission
+description: Submit a groundbreaking F1 research paper to F.U.C.K. Journal
+title: "[Paper]: "
+labels:
+  - submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Article Submission
+
+        Thank you for your interest in publishing with **F.U.C.K. Journal**.
+        Please fill in the details below. Sound academic. Be funny.
+
+  - type: input
+    id: authors
+    attributes:
+      label: Authors
+      description: List of authors (separate with commas). Use pseudonyms if desired.
+      placeholder: "Juan Sheig, Max Power, et al."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Select the most appropriate section for your paper
+      options:
+        - Technical Bullshit
+        - Mysticism in Motorsport
+        - Driver Physiognomy Studies
+        - Ferrari Strategy Catastrophe Archive
+    validations:
+      required: true
+
+  - type: textarea
+    id: abstract
+    attributes:
+      label: Abstract
+      description: A brief summary of your groundbreaking research. Make it sound like you know what you're talking about.
+      placeholder: |
+        This paper investigates the hitherto unexplored correlation between...
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: body
+    attributes:
+      label: Body
+      description: The main content of your paper. Use headings, data, wild claims. Citations encouraged but not verified.
+      placeholder: |
+        ## Introduction
+
+        ## Methodology
+
+        ## Results
+
+        ## Discussion
+
+        ## Conclusion
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Cite your sources. Making them up is part of the academic tradition.
+      placeholder: |
+        1. F.U.C.K. J. (2026). The foundational text.
+        2. Some guy on Reddit (2025). ...
+        3. A vaguely relevant Wikipedia article
+      render: markdown
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Submission Declaration
+      description: By submitting, you agree to the following
+      options:
+        - label: I confirm this paper is satirical and not intended as genuine academic research
+          required: true
+        - label: I understand there is no peer review and this will be published as-is (if it's funny enough)
+          required: true
+        - label: I agree that F.U.C.K. Journal bears no responsibility for any real-world application of my fake findings
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        After submission, your article will appear on the journal website after review (a human glances at it for ~5 seconds).
+        Thank you for contributing to the advancement of unnecessary F1 knowledge.
