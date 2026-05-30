@@ -1,0 +1,31 @@
+<footer class="journal-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>{{ site.title }}</h3>
+        <p>{{ site.subtitle }}</p>
+        <p class="footer-issn">ISSN {{ site.issn }}</p>
+      </div>
+      <div class="footer-sections">
+        <h3>Sections</h3>
+        <ul>
+          <li><a href="{{ '/categories/technical-bullshit' | relative_url }}">Technical Bullshit</a></li>
+          <li><a href="{{ '/categories/mysticism-in-motorsport' | relative_url }}">Mysticism in Motorsport</a></li>
+          <li><a href="{{ '/categories/driver-physiognomy-studies' | relative_url }}">Driver Physiognomy Studies</a></li>
+          <li><a href="{{ '/categories/ferrari-strategy-catastrophe-archive' | relative_url }}">Ferrari Strategy Catastrophe Archive</a></li>
+        </ul>
+      </div>
+      <div class="footer-info">
+        <h3>Info</h3>
+        <ul>
+          <li><a href="{{ '/about' | relative_url }}">About the Journal</a></li>
+          <li><a href="{{ '/submit' | relative_url }}">Submit Article</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ 'now' | date: "%Y" }} F.U.C.K. Journal. All rights reserved — not that anyone would claim this.</p>
+      <p class="footer-disclaimer">This is a satirical publication. Any resemblance to actual academic journals is purely coincidental and frankly insulting to actual academia.</p>
+    </div>
+  </div>
+</footer>
