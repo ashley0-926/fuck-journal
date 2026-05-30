@@ -66,6 +66,75 @@ title: Submit Article 投稿
     </form>
   </div>
 
+  <hr class="section-divider">
+
+  <div class="edit-section">
+    <h2>Need to Correct? 需要修改？</h2>
+    <p>Submitted to the wrong category? Made a typo in your groundbreaking research?<br>
+    投错栏目了？或者论文里有个错别字？</p>
+    <p><strong>Find your Issue Number:</strong> After submitting, your article number is shown in the success message above. You can also find it at the end of your GitHub issue URL (e.g., <code>https://github.com/ashley0-926/fuck-journal/issues/<strong>42</strong></code>).<br>
+    <strong>查找你的 Issue 编号：</strong>提交成功后会在上方显示文章编号，也可以在 GitHub Issue 链接末尾找到。</p>
+
+    <form id="edit-form" class="article-form edit-form">
+      <div class="form-group">
+        <label for="edit-issue-number">Issue Number 文章编号 *</label>
+        <input type="number" id="edit-issue-number" name="issueNumber" required min="1"
+          placeholder="e.g. 42">
+      </div>
+
+      <div class="form-group">
+        <label for="edit-title">Title 标题</label>
+        <input type="text" id="edit-title" name="title"
+          placeholder="Leave blank to keep unchanged">
+      </div>
+
+      <div class="form-group">
+        <label for="edit-authors">Authors 作者</label>
+        <input type="text" id="edit-authors" name="authors"
+          placeholder="Leave blank to keep unchanged">
+      </div>
+
+      <div class="form-group">
+        <label for="edit-category">Category 栏目</label>
+        <select id="edit-category" name="category">
+          <option value="">— Keep unchanged 保持不变 —</option>
+          <option value="Technical Bullshit">⚙️ Technical Bullshit 技术扯淡</option>
+          <option value="Mysticism in Motorsport">🔮 Mysticism in Motorsport 赛车玄学</option>
+          <option value="Driver Psychology & Style Analysis">🧠 Driver Psychology & Style 车手人格与风格</option>
+          <option value="Paddock Psychology Analysis">🎭 Paddock Psychology 围场心理学</option>
+          <option value="Paddock Fanfiction Studies">💕 Paddock Fanfiction 围场同人研究</option>
+          <option value="Ferrari Strategy Catastrophe Archive">🏳️ Ferrari Strategy Archive 法拉利策略灾难</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-abstract">Abstract 摘要</label>
+        <textarea id="edit-abstract" name="abstract" rows="4"
+          placeholder="Leave blank to keep unchanged"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-body">Body 正文</label>
+        <textarea id="edit-body" name="body" rows="12"
+          placeholder="Leave blank to keep unchanged"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-references">References 参考文献</label>
+        <textarea id="edit-references" name="references" rows="4"
+          placeholder="Leave blank to keep unchanged"></textarea>
+      </div>
+
+      <div class="form-submit-row">
+        <button type="submit" class="btn btn-large" id="edit-submit-btn">
+          Update Article 更新论文 →
+        </button>
+      </div>
+
+      <div id="edit-status" class="form-status" style="display:none;"></div>
+    </form>
+  </div>
+
   <div class="submit-guidelines">
     <h2>Submission Guidelines 投稿指南</h2>
     <div class="guidelines-grid">
@@ -122,8 +191,9 @@ document.getElementById('article-form').addEventListener('submit', async functio
       status.className = 'form-status form-success';
       status.innerHTML = `
         <strong>✓ Article submitted! 论文提交成功！</strong><br>
-        Your article will appear on the site shortly.<br>
-        文章即将出现在网站上。<br>
+        <strong>Issue #${data.number}</strong> — Save this number if you need to edit later.<br>
+        请保存此编号，后续如需修改可使用。<br>
+        Your article will appear on the site shortly. 文章即将出现在网站上。<br>
         <a href="${data.url}" target="_blank">View on GitHub 在GitHub查看 →</a>
       `;
       document.getElementById('article-form').reset();
@@ -139,5 +209,54 @@ document.getElementById('article-form').addEventListener('submit', async functio
   status.style.display = 'block';
   btn.disabled = false;
   btn.textContent = 'Submit Article 提交论文 →';
+});
+
+document.getElementById('edit-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('edit-submit-btn');
+  const status = document.getElementById('edit-status');
+  const formData = {
+    issueNumber: parseInt(document.getElementById('edit-issue-number').value.trim()),
+    title: document.getElementById('edit-title').value.trim() || undefined,
+    authors: document.getElementById('edit-authors').value.trim() || undefined,
+    category: document.getElementById('edit-category').value || undefined,
+    abstract: document.getElementById('edit-abstract').value.trim() || undefined,
+    body: document.getElementById('edit-body').value.trim() || undefined,
+    references: document.getElementById('edit-references').value.trim() || undefined
+  };
+
+  btn.disabled = true;
+  btn.textContent = 'Updating... 更新中...';
+  status.style.display = 'none';
+
+  try {
+    const resp = await fetch('/api/edit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await resp.json();
+
+    if (resp.ok && data.success) {
+      status.className = 'form-status form-success';
+      status.innerHTML = `
+        <strong>✓ Article updated! 文章更新成功！</strong><br>
+        <a href="${data.url}" target="_blank">View on GitHub 在GitHub查看 →</a>
+      `;
+      document.getElementById('edit-form').reset();
+    } else {
+      status.className = 'form-status form-error';
+      status.innerHTML = `<strong>✗ Error 错误:</strong> ${data.error || 'Unknown error'}${data.detail ? ': ' + data.detail : ''}`;
+    }
+  } catch (err) {
+    status.className = 'form-status form-error';
+    status.innerHTML = `<strong>✗ Network error 网络错误:</strong> ${err.message}`;
+  }
+
+  status.style.display = 'block';
+  btn.disabled = false;
+  btn.textContent = 'Update Article 更新论文 →';
 });
 </script>
