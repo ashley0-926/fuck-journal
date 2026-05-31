@@ -287,6 +287,16 @@
     article.querySelector('.article-title').textContent = issue.title;
     article.querySelector('.article-authors').textContent = `By ${sections['Authors'] || issue.user?.login || 'Anonymous'}`;
 
+    const abstractDiv = article.querySelector('.abstract-content');
+    if (abstractDiv) {
+      if (sections['Abstract']) {
+        abstractDiv.innerHTML = renderMarkdown(sections['Abstract']);
+      } else {
+        const parent = abstractDiv.parentElement;
+        if (parent) parent.style.display = 'none';
+      }
+    }
+
     const contentDiv = article.querySelector('.article-content');
     if (sections['Body']) {
       contentDiv.innerHTML = renderMarkdown(sections['Body']);
