@@ -308,11 +308,12 @@
 
     recordView(issueNum);
 
-    const views = await fetchViews(issueNum);
-    viewsEl = document.getElementById('article-views');
-    if (viewsEl) {
-      viewsEl.innerHTML = `👁️ ${views} views 阅读`;
-    }
+    fetchViews(issueNum).then(views => {
+      const viewsEl = document.getElementById('article-views');
+      if (viewsEl) {
+        viewsEl.innerHTML = `👁️ ${views} views 阅读`;
+      }
+    });
 
     const cr = await fetchCommentsAndReactions(issueNum);
     renderReactions(cr);
