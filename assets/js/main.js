@@ -287,6 +287,12 @@
     article.querySelector('.article-title').textContent = issue.title;
     article.querySelector('.article-authors').textContent = `By ${sections['Authors'] || issue.user?.login || 'Anonymous'}`;
 
+    const consentBanner = document.getElementById('article-consent-banner');
+    if (consentBanner) {
+      const hasConsent = issue.labels?.some(l => l.name === 'consent-share');
+      consentBanner.style.display = hasConsent ? 'flex' : 'none';
+    }
+
     const abstractDiv = article.querySelector('.abstract-content');
     if (abstractDiv) {
       if (sections['Abstract']) {
