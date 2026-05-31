@@ -33,10 +33,18 @@
     'paddock-fanfiction-studies': 'Paddock Fanfiction Studies'
   };
 
+  const REACTION_TYPES = [
+    { id: 'academic_titan', emoji: '🏆', label: '学术泰斗', labelEn: 'Academic Titan' },
+    { id: 'groundbreaking', emoji: '💥', label: '突破性研究', labelEn: 'Groundbreaking' },
+    { id: 'mind_blown', emoji: '🤯', label: '我已无语', labelEn: 'Mind Blown' },
+    { id: 'ferrari_strategy', emoji: '🏳️', label: '策略灾难', labelEn: 'Ferrari Strategy' },
+    { id: 'based', emoji: '🗿', label: '中肯', labelEn: 'Based' },
+    { id: 'paddock_drama', emoji: '🎭', label: '围场好戏', labelEn: 'Paddock Drama' }
+  ];
+
   const API_PROXY = '/api/issues';
   const GITHUB_ISSUES = `https://github.com/${REPO.owner}/${REPO.name}/issues`;
 
-  // === Utility ===
   function formatDate(iso) {
     const d = new Date(iso);
     return d.toLocaleDateString('en-US', {
@@ -59,6 +67,7 @@
   }
 
   function escapeHtml(text) {
+    if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
@@ -68,45 +77,34 @@
     if (!md) return '';
     let html = md;
 
-    // Code blocks
     html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
       const langClass = lang ? ` class="language-${escapeHtml(lang)}"` : '';
       const escaped = escapeHtml(code.trim());
       return `<pre><code${langClass}>${escaped}</code></pre>`;
     });
 
-    // Inline code
     html = html.replace(/`([^`]+)`/g, (_, code) => `<code>${escapeHtml(code)}</code>`);
 
-    // Bold & italic
     html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
 
-    // Images
     html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
 
-    // Links
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
-    // Blockquotes
     html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
 
-    // Unordered lists
     html = html.replace(/^[\s]*[-*]\s(.+)$/gm, '<li>$1</li>');
     html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
 
-    // Ordered lists
     html = html.replace(/^[\s]*\d+\.\s(.+)$/gm, (_, content) => `<li>${content}</li>`);
 
-    // Headers (h2, h3)
     html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
     html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
 
-    // Horizontal rules
     html = html.replace(/^---+$/gm, '<hr>');
 
-    // Paragraphs (double newlines)
     const blocks = html.split(/\n\n+/);
     const wrapped = blocks.map(block => {
       block = block.trim();
@@ -115,11 +113,9 @@
       return `<p>${block}</p>`;
     }).join('\n');
 
-    // Single line breaks within paragraphs
     return wrapped.replace(/<p>([^<]+)\n([^<]+)<\/p>/g, '<p>$1<br>$2</p>');
   }
 
-  // === Fetch Issues ===
   async function fetchIssues(category, page = 1, perPage = 50) {
     let url = `${API_PROXY}?state=open&per_page=${perPage}&page=${page}`;
 
@@ -152,7 +148,63 @@
     }
   }
 
-  // === Render Functions ===
+  async function fetchViews(issueNum) {
+    try {
+      const resp = await fetch(`/api/views?issue=${issueNum}`);
+      if (!resp.ok) return 0;
+      const json = await resp.json();
+      return json.views || 0;
+    } catch {
+      return 0;
+    }
+  }
+
+  async function recordView(issueNum) {
+    try {
+      await fetch(`/api/views?issue=${issueNum}`, { method: 'POST' });
+    } catch {}
+  }
+
+  async function fetchCommentsAndReactions(issueNum) {
+    try {
+      const resp = await fetch(`/api/comments?issue=${issueNum}`);
+      if (!resp.ok) return { comments: [], reactions: {}, totalReactions: 0 };
+      return await resp.json();
+    } catch {
+      return { comments: [], reactions: {}, totalReactions: 0 };
+    }
+  }
+
+  async function submitReaction(issueNum, type) {
+    try {
+      const resp = await fetch(`/api/comments?issue=${issueNum}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type })
+      });
+      if (!resp.ok) throw new Error('Failed');
+      return await resp.json();
+    } catch (err) {
+      console.error('Reaction failed:', err);
+      return null;
+    }
+  }
+
+  async function submitComment(issueNum, author, body) {
+    try {
+      const resp = await fetch(`/api/comments?issue=${issueNum}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ body: `**${author}** says:\n\n${body}` })
+      });
+      if (!resp.ok) throw new Error('Failed');
+      return await resp.json();
+    } catch (err) {
+      console.error('Comment failed:', err);
+      return null;
+    }
+  }
+
   function renderCard(issue) {
     const sections = parseIssueBody(issue.body || '');
     const category = issue.labels.find(l => CATEGORY_LABELS[l.name])?.name || 'Uncategorized';
@@ -171,7 +223,7 @@
 
     const title = document.createElement('h2');
     title.className = 'article-card-title';
-    title.innerHTML = `<a href="${GITHUB_ISSUES}/${issueNum}" target="_blank" rel="noopener">${escapeHtml(issue.title)}</a>`;
+    title.innerHTML = `<a href="/paper/?issue=${issueNum}">${escapeHtml(issue.title)}</a>`;
     card.appendChild(title);
 
     const authors = document.createElement('div');
@@ -189,7 +241,7 @@
 
     const footer = document.createElement('div');
     footer.className = 'article-card-footer';
-    footer.innerHTML = `<a href="${GITHUB_ISSUES}/${issueNum}" target="_blank" rel="noopener" class="article-card-link">Read full paper →</a>`;
+    footer.innerHTML = `<a href="/paper/?issue=${issueNum}" class="article-card-link">Read full paper →</a>`;
     card.appendChild(footer);
 
     return card;
@@ -206,7 +258,7 @@
     const main = document.createElement('div');
     main.className = 'article-list-main';
     main.innerHTML = `
-      <div class="article-list-title"><a href="${GITHUB_ISSUES}/${issueNum}" target="_blank" rel="noopener">${escapeHtml(issue.title)}</a></div>
+      <div class="article-list-title"><a href="/paper/?issue=${issueNum}">${escapeHtml(issue.title)}</a></div>
       <div class="article-list-authors">By ${escapeHtml(sections['Authors'] || issue.user?.login || 'Anonymous')} — ${escapeHtml(category)}</div>
     `;
     item.appendChild(main);
@@ -219,7 +271,7 @@
     return item;
   }
 
-  function renderArticle(issue) {
+  async function renderArticle(issue) {
     const sections = parseIssueBody(issue.body || '');
     const category = issue.labels.find(l => CATEGORY_LABELS[l.name])?.name || 'Uncategorized';
     const issueNum = issue.number;
@@ -229,17 +281,12 @@
 
     article.dataset.issueId = issueNum;
 
-    // Meta
     article.querySelector('.article-category').textContent = category;
+    article.querySelector('.article-category').style.color = CATEGORY_COLORS[category] || '#888';
     article.querySelector('.article-date').textContent = formatDate(issue.created_at);
-
-    // Title
     article.querySelector('.article-title').textContent = issue.title;
-
-    // Authors
     article.querySelector('.article-authors').textContent = `By ${sections['Authors'] || issue.user?.login || 'Anonymous'}`;
 
-    // Content
     const contentDiv = article.querySelector('.article-content');
     if (sections['Body']) {
       contentDiv.innerHTML = renderMarkdown(sections['Body']);
@@ -249,7 +296,6 @@
       contentDiv.innerHTML = renderMarkdown(issue.body || '');
     }
 
-    // References
     const refsDiv = article.querySelector('.references-content');
     if (sections['References']) {
       refsDiv.innerHTML = renderMarkdown(sections['References']);
@@ -258,32 +304,95 @@
       if (parent) parent.style.display = 'none';
     }
 
-    // Set page title
     document.title = `${issue.title} — F.U.C.K. Journal`;
 
-    // Load comments
-    loadComments(issueNum);
+    recordView(issueNum);
+
+    const views = await fetchViews(issueNum);
+    viewsEl = document.getElementById('article-views');
+    if (viewsEl) {
+      viewsEl.innerHTML = `👁️ ${views} views 阅读`;
+    }
+
+    const cr = await fetchCommentsAndReactions(issueNum);
+    renderReactions(cr);
+    renderComments(cr.comments);
   }
 
-  // === Comments (utteranc.es) ===
-  function loadComments(issueNum) {
-    const container = document.getElementById('comments-container');
-    if (!container) return;
+  function renderReactions(cr) {
+    const bar = document.getElementById('reactions-bar');
+    if (!bar) return;
 
-    container.innerHTML = '';
+    const reactions = cr.reactions || {};
+    const total = cr.totalReactions || 0;
 
-    const script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', `${REPO.owner}/${REPO.name}`);
-    script.setAttribute('issue-number', issueNum.toString());
-    script.setAttribute('theme', 'github-light');
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
-    container.appendChild(script);
+    bar.innerHTML = '';
+
+    REACTION_TYPES.forEach(rt => {
+      const count = reactions[rt.id] || 0;
+      const btn = document.createElement('button');
+      btn.className = 'reaction-btn';
+      btn.title = `${rt.labelEn} ${rt.label}`;
+      btn.innerHTML = `<span class="reaction-emoji">${rt.emoji}</span><span class="reaction-label">${rt.label}</span><span class="reaction-count">${count}</span>`;
+
+      btn.addEventListener('click', async () => {
+        const issueNum = document.querySelector('.journal-article')?.dataset.issueId;
+        if (!issueNum) return;
+        const result = await submitReaction(issueNum, rt.id);
+        if (result && result.reactions) {
+          renderReactions(result);
+        }
+      });
+
+      bar.appendChild(btn);
+    });
+
+    const totalEl = document.createElement('div');
+    totalEl.className = 'reaction-total';
+    totalEl.textContent = `${total} reactions 评价`;
+    bar.appendChild(totalEl);
   }
 
-  // === Update Stats ===
-  function updateStats(issues) {
+  function renderComments(comments) {
+    const list = document.getElementById('comments-list');
+    if (!list) return;
+
+    if (!comments || comments.length === 0) {
+      list.innerHTML = '<div class="comments-empty"><p>No peer reviews yet. Be the first!<br>还没有同行评议，来做第一个！</p></div>';
+      return;
+    }
+
+    list.innerHTML = comments.map(c => `
+      <div class="comment-item">
+        <div class="comment-header">
+          <span class="comment-author">${escapeHtml(c.user)}</span>
+          <span class="comment-date">${formatDate(c.created_at)}</span>
+        </div>
+        <div class="comment-body">${renderMarkdown(c.body)}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderPopular(cardHtml) {
+    const grid = document.getElementById('popular-grid');
+    const loading = document.getElementById('popular-loading');
+    if (!grid) return;
+
+    if (loading) loading.style.display = 'none';
+
+    if (!cardHtml || cardHtml.length === 0) {
+      grid.innerHTML = '<div class="no-articles"><p>No popular articles yet. 还没有热门文章。</p></div>';
+      return;
+    }
+
+    const container = document.createElement('div');
+    container.className = 'articles-grid';
+    container.innerHTML = cardHtml.join('');
+    grid.innerHTML = '';
+    grid.appendChild(container);
+  }
+
+  async function updateStats(issues) {
     const totalEl = document.getElementById('stat-articles');
     if (totalEl) totalEl.textContent = issues.length;
 
@@ -306,7 +415,6 @@
     if (citationsEl) citationsEl.textContent = Math.floor(issues.length * 2.7);
   }
 
-  // === Init Functions ===
   async function initHome() {
     const grid = document.getElementById('articles-grid');
     const loading = document.getElementById('articles-loading');
@@ -329,7 +437,6 @@
 
     updateStats(issues);
 
-    // Exclude issue template/pinned issues
     const articles = issues.filter(i =>
       !i.title.toLowerCase().includes('[template]') &&
       !i.pinned
@@ -338,6 +445,52 @@
     articles.slice(0, 12).forEach(issue => {
       grid.appendChild(renderCard(issue));
     });
+
+    loadPopular(articles);
+  }
+
+  async function loadPopular(articles) {
+    try {
+      const limited = articles.slice(0, 20);
+      const withReactions = await Promise.all(
+        limited.map(async (issue) => {
+          const cr = await fetchCommentsAndReactions(issue.number);
+          return { issue, totalReactions: cr.totalReactions || 0 };
+        })
+      );
+
+      withReactions.sort((a, b) => b.totalReactions - a.totalReactions);
+      const top = withReactions.slice(0, 6).filter(item => item.totalReactions > 0);
+
+      if (top.length === 0) {
+        renderPopular(null);
+        return;
+      }
+
+      const html = top.map(item => {
+        const cat = item.issue.labels.find(l => CATEGORY_LABELS[l.name])?.name || 'Uncategorized';
+        const sections = parseIssueBody(item.issue.body || '');
+        const color = CATEGORY_COLORS[cat] || '#888';
+        return `
+          <div class="article-card popular-card">
+            <div class="article-card-meta">
+              <span class="article-card-category" style="background: ${color}20; color: ${color}">${escapeHtml(cat)}</span>
+              <span class="popular-badge">🏆 #${item.totalReactions}</span>
+            </div>
+            <h2 class="article-card-title"><a href="/paper/?issue=${item.issue.number}">${escapeHtml(item.issue.title)}</a></h2>
+            <div class="article-card-authors">By ${escapeHtml(sections['Authors'] || item.issue.user?.login || 'Anonymous')}</div>
+            <div class="article-card-footer">
+              <a href="/paper/?issue=${item.issue.number}" class="article-card-link">Read 阅读 →</a>
+            </div>
+          </div>
+        `;
+      });
+
+      renderPopular(html);
+    } catch (err) {
+      console.error('Failed to load popular:', err);
+      renderPopular(null);
+    }
   }
 
   async function initCategory() {
@@ -395,10 +548,53 @@
       return;
     }
 
-    renderArticle(issue);
+    await renderArticle(issue);
+    setupCommentForm(issueNum);
   }
 
-  // === Boot ===
+  function setupCommentForm(issueNum) {
+    const btn = document.getElementById('comment-submit');
+    const authorInput = document.getElementById('comment-author');
+    const bodyInput = document.getElementById('comment-body');
+    const status = document.getElementById('comment-status');
+
+    if (!btn || !bodyInput) return;
+
+    btn.addEventListener('click', async () => {
+      const author = authorInput?.value.trim() || 'Anonymous';
+      const body = bodyInput.value.trim();
+
+      if (!body) {
+        status.className = 'form-status form-error';
+        status.innerHTML = '<strong>✗</strong> Please write a comment. 请填写评论。';
+        status.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting... 提交中...';
+      status.style.display = 'none';
+
+      const result = await submitComment(issueNum, author, body);
+
+      if (result && result.success) {
+        status.className = 'form-status form-success';
+        status.innerHTML = '<strong>✓</strong> Comment submitted! 评论提交成功！';
+        status.style.display = 'block';
+        bodyInput.value = '';
+        const cr = await fetchCommentsAndReactions(issueNum);
+        renderComments(cr.comments);
+      } else {
+        status.className = 'form-status form-error';
+        status.innerHTML = '<strong>✗</strong> Failed to submit. 提交失败。';
+        status.style.display = 'block';
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Submit Review 提交评议';
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     const path = window.location.pathname;
 
@@ -406,7 +602,7 @@
       initHome();
     } else if (path.startsWith('/categories/') || path.startsWith('/category/')) {
       initCategory();
-    } else if (path.startsWith('/article') || path.startsWith('/paper')) {
+    } else if (path.startsWith('/paper') || path.startsWith('/article')) {
       initArticle();
     } else if (path.startsWith('/submit') || path.startsWith('/submit.html')) {
       updateSubmitLink();
