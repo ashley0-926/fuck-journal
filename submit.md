@@ -56,6 +56,13 @@ title: Submit Article 投稿
           placeholder="1. F.U.C.K. J. (2026). The foundational text.&#10;2. Some guy on Reddit (2025). ..."></textarea>
       </div>
 
+      <div class="form-group form-checkbox">
+        <label class="checkbox-label">
+          <input type="checkbox" id="form-share-consent" name="shareConsent">
+          <span class="checkbox-text">I agree the author may repost this article on Xiaohongshu for promotion. 我同意作者将本文搬运到小红书进行宣传展示。 <span class="consent-star">⭐</span></span>
+        </label>
+      </div>
+
       <div class="form-submit-row">
         <button type="submit" class="btn btn-large" id="form-submit-btn">
           Submit Article 提交论文 →
@@ -171,7 +178,8 @@ document.getElementById('article-form').addEventListener('submit', async functio
     category: document.getElementById('form-category').value,
     abstract: document.getElementById('form-abstract').value.trim(),
     body: document.getElementById('form-body').value.trim(),
-    references: document.getElementById('form-references').value.trim()
+    references: document.getElementById('form-references').value.trim(),
+    shareConsent: document.getElementById('form-share-consent').checked
   };
 
   btn.disabled = true;
