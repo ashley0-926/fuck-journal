@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { title, authors, category, abstract, body, references } = req.body;
+  const { title, authors, category, abstract, body, references, shareConsent } = req.body;
 
   if (!title || !authors || !category || !abstract || !body) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         title: `[Paper]: ${title}`,
         body: issueBody,
-        labels: [category, 'submission']
+        labels: [category, 'submission', ...(shareConsent ? ['consent-share'] : [])]
       })
     });
 
